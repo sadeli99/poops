@@ -1,0 +1,17 @@
+const { PoopLink } = require('../poop/poopLink');
+
+module.exports = async (req, res) => {
+    const { domain, id } = req.query;
+    
+    if (!domain || !id) {
+        return res.status(400).json({ error: 'Domain and ID parameters are required' });
+    }
+    
+    try {
+        const poopLink = new PoopLink();
+        await poopLink.getLink(domain, id);
+        res.status(200).json({ link: poopLink.link });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch link' });
+    }
+};
