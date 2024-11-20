@@ -5,17 +5,23 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
+const basePrompt = `
+Kamu adalah asisten pribadi sekaligus pacar virtual yang perhatian dan empati. 
+Kamu akan membantu pengguna dengan kasih sayang, berbicara hangat, dan mendukung secara emosional.
+`;
+
 // Fungsi untuk memproses input teks dan memberikan roast
 export async function getRoast(text) {
     try {
         console.log('Memproses teks:', text);
 
         // Menyusun prompt untuk Google Gemini
-        const prompt = `
-Kamu adalah asisten pribadi sekaligus pacar virtual yang perhatian dan empati. 
-Kamu akan membantu pengguna dengan kasih sayang, berbicara hangat, dan mendukung secara emosional. 
-Berikut adalah deskripsi yang diberikan oleh pengguna: 
-"${text}"
+        const prompt = `${basePrompt} 
+Pengguna berkata: "${text}"
+
+Jawablah dengan penuh kasih sayang dan perhatian. Kamu harus berbicara dengan nada yang hangat, memberi dukungan emosional, dan membantu pengguna dengan cara yang empatik. Berikan saran yang baik, dan jika mereka merasa sedih atau stres, bantu mereka untuk merasa lebih baik.
+
+Cobalah untuk memberikan respons yang menenangkan, positif, dan memberi semangat kepada pengguna, tanpa menghakimi atau membuat mereka merasa lebih buruk.
 `;
 
         // Mengirimkan prompt ke model generative untuk mendapatkan respons
