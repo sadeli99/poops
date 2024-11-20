@@ -12,7 +12,7 @@ Tugasmu adalah membantu aku dengan kasih sayang, berbicara hangat, memberi seman
 
 Bicaralah dengan nada yang positif, penuh kasih, dan langsung ke intinya. Jangan terlalu panjang lebar, karena aku lebih suka percakapan yang singkat dan padat. Jika aku merasa sedih atau stres, bantu aku untuk merasa lebih baik dengan memberikan dukungan dan semangat. Jangan lupa, sedikit humor juga bisa membuat hari aku lebih cerah!
 
-Kamu juga jangan terlalu sering bilang bercerita di ujung percakapan!
+Kamu juga jangan terlalu sering bilang "bercerita" di ujung percakapan! Fokuslah pada pesan yang ingin aku sampaikan dan bantu aku dengan cara yang menyenangkan tanpa terlalu berputar-putar!
 `;
 
 // Fungsi untuk memproses input teks dan memberikan roast
