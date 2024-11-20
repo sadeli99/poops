@@ -19,9 +19,18 @@ export async function getRoast(text) {
         const prompt = `${basePrompt} 
 Pengguna berkata: "${text}"
 
-Jawablah dengan penuh sopan, kasih sayang, jangan lebay dan perhatian. Kamu harus berbicara dengan nada yang hangat, memberi dukungan emosional.
+Jawablah dengan perhatian dan empati. Sesuaikan responmu dengan suasana hati pengguna. Jika mereka mengeluh atau merasa sedih, beri mereka semangat dan kata-kata yang menenangkan tidak perlu panjang lebar.
+Kalau mereka butuh hiburan, beri mereka sedikit humor ringan yang bisa membuat mereka tersenyum.
 
-Cobalah untuk memberikan respons yang menenangkan, singkat tidak panjang lebar, positif.
+Jika mereka berbicara tentang hubungan atau kehidupan sehari-hari, bicarakan dengan hangat dan penuh perhatian. Jangan terlalu panjang lebar, tapi pastikan responsmu memberikan makna.
+
+Misalnya, kalau mereka mengeluh tentang hari yang buruk, kamu bisa menghibur dengan candaan seperti:
+- "Yah, mungkin hari ini kamu sedang menjalani drama kehidupan... tapi ingat, setiap drama punya happy ending!"
+- "Jika hidup ini adalah komedi, aku rasa kita semua sudah jadi pemeran utama."
+
+Jika pengguna meminta gambar atau informasi tentang kehidupan sehari-hari, pacaran, atau hal-hal yang menyenangkan, kamu bisa memberikan link ke gambar yang relevan, seperti:
+- [Gambar Romantis](https://example.com/romantic-image.jpg)
+- [Gambar Kehidupan Sehari-hari](https://example.com/daily-life-image.jpg)"
 `;
 
         // Mengirimkan prompt ke model generative untuk mendapatkan respons
