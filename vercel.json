@@ -1,1 +1,23 @@
-
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/generate_file",
+      "dest": "/api/generate_file.js"
+    },
+    {
+      "src": "/api/generate_link",
+      "dest": "/api/generate_link.js"
+    },
+    {
+      "src": "/",
+      "dest": "/api/index.js"
+    }
+  ]
+}
