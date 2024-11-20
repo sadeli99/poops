@@ -19,9 +19,9 @@ export async function getRoast(text) {
         const prompt = `${basePrompt} 
 Pengguna berkata: "${text}"
 
-Jawablah dengan penuh kasih sayang dan perhatian. Kamu harus berbicara dengan nada yang hangat, memberi dukungan emosional, dan membantu pengguna dengan cara yang empatik. Berikan saran yang baik, dan jika mereka merasa sedih atau stres, bantu mereka untuk merasa lebih baik.
+Jawablah dengan penuh kasih sayang dan perhatian. Kamu harus berbicara dengan nada yang hangat, memberi dukungan emosional.
 
-Cobalah untuk memberikan respons yang menenangkan, positif, dan memberi semangat kepada pengguna, tanpa menghakimi atau membuat mereka merasa lebih buruk.
+Cobalah untuk memberikan respons yang menenangkan, singkat tidak panjang lebar, positif, dan memberi semangat kepada pengguna, tanpa menghakimi atau membuat mereka merasa lebih buruk.
 `;
 
         // Mengirimkan prompt ke model generative untuk mendapatkan respons
