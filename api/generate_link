@@ -1,17 +1,37 @@
-const { PoopLink } = require('../poop/poopLink');
+import axios from 'axios';
 
-module.exports = async (req, res) => {
-    const { domain, id } = req.query;
-    
-    if (!domain || !id) {
-        return res.status(400).json({ error: 'Domain and ID parameters are required' });
-    }
-    
+class PoopLink {
+  constructor() {
+    this.link = '';
+    this.r = axios.create();
+    this.headers = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36' };
+  }
+
+  async redirect(url) {
+    const response = await this.r.head(url, { headers: this.headers, maxRedirects: 0 });
+    return response.headers.location;
+  }
+
+  async getLink(domain, id) {
     try {
-        const poopLink = new PoopLink();
-        await poopLink.getLink(domain, id);
-        res.status(200).json({ link: poopLink.link });
+      const url1 = await this.redirect(`https://${domain}/p0?id=${id}`);
+      const req2 = await this.r.get(url1, { headers: this.headers });
+      const $ = cheerio.load(req2.data);
+      const url2 = $("script").html().match(/returnfetch"(.*?)"/)[1];
+      const auth = $("script").html().match(/"Authorization":"(.*?)"/)[1];
+
+      const headers = { 'Authorization': auth, 'Origin': `https://${domain}` };
+      const req3 = await this.r.get(url2, { headers: { ...this.headers, ...headers } });
+      this.link = req3.data.direct_link;
     } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch link' });
+      console.error(error);
     }
-};
+  }
+}
+
+export default async function handler(req, res) {
+  const { domain, id } = req.query;
+  const PL = new PoopLink();
+  await PL.getLink(domain, id);
+  res.status(200).json({ link: PL.link });
+}
