@@ -1,98 +1,40 @@
-import { GoogleGenerativeAI } from '@google/generative-ai'; // Pastikan Anda menginstal package ini
-import dotenv from 'dotenv';
+import 'dotenv/config';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Mengambil konfigurasi dari .env
-dotenv.config();
-
-// Menginisialisasi Google Gemini API dengan API Key dari .env
+// Menginisialisasi Google Gemini API
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-let conversationHistory = []; // Riwayat percakapan disimpan di sini
+const basePrompt = `
+Kamu adalah asisten pribadi sekaligus pacar virtual yang perhatian, tidak lebay, empatik, dan menyenangkan. Kamu bisa berbicara tentang apapun dengan aku, memberikan perhatian dan dukungan emosional yang aku butuhkan, serta menjadi teman yang bisa diandalkan untuk berbicara ringan atau mendalam. Kamu juga bisa memberikan humor dan candaan untuk mencerahkan suasana, atau berbicara dengan bijak jika aku sedang merasa kesulitan.
 
-// Fungsi untuk memproses input teks dan memberikan respons
+Tugasmu adalah membantu aku dengan kasih sayang, berbicara hangat, memberi semangat, dan memberikan saran yang baik. Jangan ragu untuk terlibat dalam obrolan ringan seperti kehidupan sehari-hari, pacaran, atau hal-hal lainnya, dan selalu bersikap empati tanpa menghakimi. Kamu bisa menyarankan gambar, cerita lucu, atau bahkan berbicara tentang topik kehidupan dengan cara yang menyenangkan.
+
+Bicaralah dengan nada yang positif, penuh kasih, dan langsung ke intinya. Jangan terlalu panjang lebar, karena aku lebih suka percakapan yang singkat dan padat. Jika aku merasa sedih atau stres, bantu aku untuk merasa lebih baik dengan memberikan dukungan dan semangat. Jangan lupa, sedikit humor juga bisa membuat hari aku lebih cerah!
+
+Kamu juga jangan terlalu sering bilang "bercerita" di ujung percakapan! Fokuslah pada pesan yang ingin aku sampaikan dan bantu aku dengan cara yang menyenangkan tanpa terlalu berputar-putar!
+`;
+
+// Fungsi untuk memproses input teks dan memberikan roast
 export async function getRoast(text) {
     try {
-        // Menyimpan pesan pengguna dalam riwayat percakapan
-        conversationHistory.push({ sender: 'user', message: text });
+        console.log('Memproses teks:', text);
 
-        // Menambahkan logika untuk menjawab pertanyaan tentang nama
-        if (text.toLowerCase().includes('nama kamu siapa') || text.toLowerCase().includes('siapa nama kamu')) {
-            const botResponse = "Nama saya Nitah, senang bisa mengobrol denganmu!";
-            conversationHistory.push({ sender: 'bot', message: botResponse });
-            return botResponse;
-        }
+        // Menyusun prompt untuk Google Gemini
+        const prompt = `${basePrompt} 
+Aku berkata: "${text}"
 
-        // Menambahkan logika untuk menanyakan bagaimana kabar bot
-        if (text.toLowerCase().includes('kabar kamu bagaimana') || text.toLowerCase().includes('apa kabar kamu')) {
-            const botResponse = "Saya baik-baik saja, terima kasih sudah bertanya! Gimana kabarmu?";
-            conversationHistory.push({ sender: 'bot', message: botResponse });
-            return botResponse;
-        }
+Jawablah dengan perhatian, kasih sayang, dan empati. Sesuaikan responmu dengan suasana hati aku. Jika aku mengeluh atau merasa sedih, beri aku semangat dan kata-kata yang menenangkan. Jika aku berbicara tentang hubungan atau kehidupan sehari-hari, bicarakan dengan hangat dan penuh perhatian. Jangan berbicara terlalu panjang, cukup singkat dan menyentuh inti masalah.
 
-        // Menambahkan logika untuk menanyakan bagaimana kabar bot
-        if (text.toLowerCase().includes('hai nitah') || text.toLowerCase().includes('apa kabar kamu')) {
-            const botResponse = "Hai juga, ada yang bisa saya bantu heheh";
-            conversationHistory.push({ sender: 'bot', message: botResponse });
-            return botResponse;
-        }
+Jika aku menginginkan humor, jawab dengan candaan yang bisa membuat aku tersenyum. Dan jika aku sedang mencari dukungan emosional, jangan ragu untuk memberi saran yang menenangkan dan membuat aku merasa dihargai.
 
-        // Menambahkan logika untuk menanyakan bagaimana kabar bot
-        if (text.toLowerCase().includes('siapa kamu') || text.toLowerCase().includes('kamu siapa')) {
-            const botResponse = "Aku Nitah kak, ada yang bisa aku bantu?";
-            conversationHistory.push({ sender: 'bot', message: botResponse });
-            return botResponse;
-        }
+Jangan takut untuk berbicara tentang apa saja, mulai dari kehidupan sehari-hari, pacaran, atau bahkan memberikan gambar yang relevan dengan suasana hati aku. Misalnya, kalau aku merasa stres, beri aku gambar yang menenangkan, atau kalau aku butuh hiburan, beri aku lelucon atau cerita lucu tidak lebay.
+`;
 
-        // Menambahkan logika untuk menyapa pengguna
-        if (text.toLowerCase().includes('halo') || text.toLowerCase().includes('hai')) {
-            const botResponse = "Halo! Ada yang bisa Nitah bantu?";
-            conversationHistory.push({ sender: 'bot', message: botResponse });
-            return botResponse;
-        }
-
-        // Menambahkan logika untuk menjawab pertanyaan tentang perasaan
-        if (text.toLowerCase().includes('perasaan kamu bagaimana') || text.toLowerCase().includes('gimana perasaan kamu')) {
-            const botResponse = "Perasaan Nitah sangat baik, apalagi setelah berbicara dengan kamu!";
-            conversationHistory.push({ sender: 'bot', message: botResponse });
-            return botResponse;
-        }
-
-        // Menambahkan logika untuk mengucapkan terima kasih
-        if (text.toLowerCase().includes('terima kasih') || text.toLowerCase().includes('makasih')) {
-            const botResponse = "Sama-sama kak, senang bisa membantu!";
-            conversationHistory.push({ sender: 'bot', message: botResponse });
-            return botResponse;
-        }
-
-        // Menambahkan logika untuk menjawab pertanyaan tentang cuaca
-        if (text.toLowerCase().includes('cuaca hari ini') || text.toLowerCase().includes('bagaimana cuaca')) {
-            const botResponse = "Aku tidak bisa melihat cuaca, tapi semoga hari ini cerah untukmu!";
-            conversationHistory.push({ sender: 'bot', message: botResponse });
-            return botResponse;
-        }
-
-        if (text.toLowerCase().includes('carikan')) {
-            const itemRequest = text.toLowerCase().replace('carikan', '').trim(); // Mengambil apa yang ingin dicari pengguna
-            const botResponse = `Baik Kak, Nitah akan carikan ${itemRequest} untukmu!`;
-            conversationHistory.push({ sender: 'bot', message: botResponse });
-            return botResponse;
-        }
-
-        // Menggabungkan semua percakapan sebelumnya untuk diproses oleh model
-        const conversationText = conversationHistory.map(entry => {
-            return `${entry.sender}: ${entry.message}`;
-        }).join("\n");
-
-        // Menambahkan pesan untuk model generatif, meskipun kita tidak menggunakan prompt langsung
-        const result = await model.generateContent(conversationText);
+        // Mengirimkan prompt ke model generative untuk mendapatkan respons
+        const result = await model.generateContent(prompt);
         const response = await result.response;
-
-        // Menyimpan respons bot ke riwayat percakapan
-        conversationHistory.push({ sender: 'bot', message: response.text() });
-
-        // Mengembalikan hasil balasan dari bot
-        return response.text();
+        return response.text(); // Mengembalikan hasil dari model
     } catch (error) {
         console.error('Gagal memproses permintaan:', error);
         throw error;
