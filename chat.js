@@ -37,16 +37,23 @@ export async function getRoast(text) {
             return botResponse;
         }
 
+        // Menambahkan logika untuk menanyakan bagaimana kabar bot
+        if (text.toLowerCase().includes('siapa kamu') || text.toLowerCase().includes('kamu siapa')) {
+            const botResponse = "Aku Nitah kak, ada yang bisa aku bantu?";
+            conversationHistory.push({ sender: 'bot', message: botResponse });
+            return botResponse;
+        }
+
         // Menambahkan logika untuk menyapa pengguna
         if (text.toLowerCase().includes('halo') || text.toLowerCase().includes('hai')) {
-            const botResponse = "Halo! Ada yang bisa aku bantu?";
+            const botResponse = "Halo! Ada yang bisa Nitah bantu?";
             conversationHistory.push({ sender: 'bot', message: botResponse });
             return botResponse;
         }
 
         // Menambahkan logika untuk menjawab pertanyaan tentang perasaan
         if (text.toLowerCase().includes('perasaan kamu bagaimana') || text.toLowerCase().includes('gimana perasaan kamu')) {
-            const botResponse = "Perasaan saya sangat baik, apalagi setelah berbicara dengan kamu!";
+            const botResponse = "Perasaan Nitah sangat baik, apalagi setelah berbicara dengan kamu!";
             conversationHistory.push({ sender: 'bot', message: botResponse });
             return botResponse;
         }
