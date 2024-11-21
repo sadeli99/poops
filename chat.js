@@ -65,6 +65,13 @@ export async function getRoast(text) {
             return botResponse;
         }
 
+        if (text.toLowerCase().includes('carikan')) {
+            const itemRequest = text.toLowerCase().replace('carikan', '').trim(); // Mengambil apa yang ingin dicari pengguna
+            const botResponse = `Baik Kak, Nitah akan carikan ${itemRequest} untukmu!`;
+            conversationHistory.push({ sender: 'bot', message: botResponse });
+            return botResponse;
+        }
+
         // Menggabungkan semua percakapan sebelumnya untuk diproses oleh model
         const conversationText = conversationHistory.map(entry => {
             return `${entry.sender}: ${entry.message}`;
